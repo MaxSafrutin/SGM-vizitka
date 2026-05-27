@@ -1,0 +1,1021 @@
+/* Digital business card and shared company-materials modal. */
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  min-height: 100%;
+  min-height: 100dvh;
+  display: grid;
+  place-items: start center;
+  padding: 16px;
+}
+
+.wrap--contactsPage {
+  padding: 16px;
+}
+
+.card {
+  position: relative;
+  width: min(620px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 20px;
+  background: rgba(15, 15, 15, 0.96);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: riseFade 420ms ease both;
+}
+
+.card::after,
+.modalCard::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    #5f2b26,
+    #94532c,
+    #d09e56,
+    #fff5e2,
+    #dcbb95,
+    #a05a1f
+  );
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.card__body {
+  padding: 22px;
+}
+
+.contactSheet {
+  display: grid;
+  gap: 14px;
+}
+
+.contactHead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+}
+
+.contactHero {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+
+.contactHero__content {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+}
+
+.contactAvatar {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  display: block;
+}
+
+.contactBrandLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 86px;
+  min-height: 42px;
+  padding: 8px 0;
+  text-decoration: none;
+}
+
+.contactBrandLogo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.contactName {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.contactRole {
+  margin: 2px 0 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.contactCompany {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.28;
+}
+
+.contactCompanyLink {
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.contactCompanyLink:hover {
+  color: #f1d5ab;
+}
+
+.contactTopActions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
+  gap: 8px;
+}
+
+.modalActions {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+}
+
+.contactMaterials {
+  margin-top: 2px;
+}
+
+.modalBack,
+.modalClose,
+.modalAction {
+  appearance: none;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  font-family: var(--font);
+}
+
+.modalBack,
+.modalClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.modalClose {
+  width: 40px;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.modalAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 14px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.modalBack:hover,
+.modalClose:hover,
+.modalAction:hover,
+.modalIconAction:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 245, 226, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.modalAction--accent {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: rgba(255, 245, 226, 0.30);
+  background: linear-gradient(
+    90deg,
+    rgba(95, 43, 38, 0.34),
+    rgba(255, 245, 226, 0.12),
+    rgba(95, 43, 38, 0.34)
+  );
+  font-weight: 500;
+}
+
+.modalAction--accent::before {
+  content: "";
+  position: absolute;
+  top: -140%;
+  left: -32%;
+  width: 36%;
+  height: 380%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.30),
+    rgba(255, 255, 255, 0)
+  );
+  transform: rotate(24deg);
+  animation: verifyShine 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.modalAction--no-shine::before {
+  display: none;
+}
+
+.modalAction--accent > * {
+  position: relative;
+  z-index: 1;
+}
+
+.modalAction--accent:hover {
+  border-color: rgba(255, 245, 226, 0.42);
+  background: linear-gradient(
+    90deg,
+    rgba(95, 43, 38, 0.42),
+    rgba(255, 245, 226, 0.16),
+    rgba(95, 43, 38, 0.42)
+  );
+}
+
+.modalAction--presentation {
+  min-height: 54px;
+}
+
+.modalAction--shareAction {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: rgba(0, 122, 255, 0.38);
+  background: linear-gradient(180deg, rgba(0, 122, 255, 0.95), rgba(0, 92, 204, 0.95));
+  color: #ffffff;
+  font-weight: 500;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 10px 22px rgba(0, 122, 255, 0.16);
+}
+
+.modalAction--shareAction .modalAction__icon {
+  width: 22px;
+  height: 22px;
+  color: #ffffff;
+}
+
+.modalAction--shareAction .modalAction__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.modalAction--shareAction:hover {
+  border-color: rgba(94, 172, 255, 0.62);
+  background: linear-gradient(180deg, rgba(24, 137, 255, 0.98), rgba(0, 104, 224, 0.98));
+}
+
+.modalAction__text {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.modalAction__text strong {
+  display: block;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.modalAction__text small {
+  display: block;
+  color: #f1d5ab;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+}
+
+.modalAction__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: #f1d5ab;
+  flex: 0 0 auto;
+}
+
+.modalAction__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.modalAction__icon--image {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.modalAction__icon--image img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+}
+
+.contactMethod,
+.contactAccordion,
+.fact {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.contactMethod {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.contactMethod__main {
+  min-width: 0;
+}
+
+.contactMethod__number {
+  display: block;
+  color: #f1d5ab;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.contactMethod__label {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 11px;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.contactMethod__actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.contactQuick {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.contactQuick svg {
+  width: 22px;
+  height: 22px;
+}
+
+.contactQuick img {
+  width: 29px;
+  height: 29px;
+  object-fit: contain;
+  display: block;
+}
+
+.contactQuick:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 245, 226, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.contactQuick[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  z-index: 5;
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 15, 15, 0.96);
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.contactQuick[data-tooltip]:hover::after,
+.contactQuick[data-tooltip]:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.contactAccordion {
+  border-radius: 16px;
+}
+
+.contactAccordion summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.contactAccordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.contactAccordion__chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: #f1d5ab;
+  transition: transform 160ms ease;
+}
+
+.contactAccordion[open] .contactAccordion__chevron {
+  transform: rotate(180deg);
+}
+
+.contactAccordion__chevron svg {
+  width: 18px;
+  height: 18px;
+}
+
+.contactAccordion__body {
+  display: grid;
+  gap: 10px;
+  padding: 0 14px 14px;
+}
+
+.fact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.fact__label {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: inherit;
+  font-weight: 400;
+}
+
+.fact__value {
+  color: #f1d5ab;
+  font-size: inherit;
+  font-weight: 700;
+}
+
+.modalRoot[hidden] {
+  display: none;
+}
+
+.modalShell {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: start center;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.modalOverlay {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(7, 7, 7, 0.76);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+
+.modalCard {
+  position: relative;
+  z-index: 1;
+  width: min(620px, 100%);
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(15, 15, 15, 0.96);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: riseFade 220ms ease both;
+}
+
+.modalHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 28px;
+}
+
+.modalHead__start {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 28px;
+}
+
+.modalTitle {
+  margin: 14px 0 8px;
+  font-size: 32px;
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.modalText {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.modalNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.modalNote--caption {
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.modalNote__pin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: #f1d5ab;
+  flex: 0 0 auto;
+  font-size: 14px;
+}
+
+.modalNote__pin svg {
+  width: 18px;
+  height: 18px;
+}
+
+.modalNote--accent {
+  border-color: rgba(241, 213, 171, 0.20);
+  background: rgba(241, 213, 171, 0.06);
+  color: rgba(255, 255, 255, 0.90);
+  font-weight: 500;
+}
+
+.modalBody {
+  margin-top: 18px;
+}
+
+.modalActionWrap {
+  display: block;
+}
+
+.modalActionWrap--spaced {
+  margin-top: 14px;
+}
+
+.modalActionWrap--spaced::before {
+  content: "";
+  display: block;
+  height: 1px;
+  margin: 0 8px 14px;
+  background: linear-gradient(90deg, transparent, rgba(241, 213, 171, 0.26), transparent);
+}
+
+.modalActionWrap--pdf {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 48px;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.modalActionWrap--spaced.modalActionWrap--pdf::before {
+  grid-column: 1 / -1;
+}
+
+.modalActionWrap--pdf .modalAction {
+  min-width: 0;
+}
+
+.modalIconAction {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-height: 46px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  color: #f1d5ab;
+  text-decoration: none;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.modalIconAction svg {
+  width: 20px;
+  height: 20px;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  z-index: 120;
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(15, 15, 15, 0.96);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.36);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.4;
+  transform: translate(-50%, 20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.catalogCard {
+  width: min(980px, 100%);
+}
+
+.catalogHead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: start;
+}
+
+.catalogHead h1 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.catalogEyebrow {
+  margin: 0 0 6px;
+  color: #f1d5ab;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.catalogLead {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.catalogStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.catalogStats span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 7px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 13px;
+}
+
+.managerGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.managerTile {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.managerTile__avatar {
+  width: 62px;
+  height: 62px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  object-fit: cover;
+}
+
+.managerTile__main {
+  min-width: 0;
+}
+
+.managerTile h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.14;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+.managerTile p {
+  margin: 5px 0 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.managerTile__meta {
+  display: grid;
+  gap: 2px;
+  margin-top: 7px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.managerTile__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 245, 226, 0.24);
+  background: rgba(255, 245, 226, 0.06);
+  color: #f1d5ab;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.managerTile__link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 245, 226, 0.40);
+  background: rgba(255, 245, 226, 0.10);
+}
+
+@keyframes riseFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes verifyShine {
+  0%,
+  14% {
+    transform: translateX(-160%) rotate(24deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  34% {
+    transform: translateX(440%) rotate(24deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(440%) rotate(24deg);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .wrap--contactsPage {
+    padding: 12px;
+  }
+
+  .card__body {
+    padding: 18px;
+  }
+
+  .contactHead {
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+  }
+
+  .contactHero {
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .contactAvatar {
+    width: 78px;
+    height: 78px;
+    border-radius: 16px;
+  }
+
+  .contactBrandLogo {
+    width: 62px;
+    min-height: 34px;
+    padding-top: 2px;
+  }
+
+  .contactName {
+    font-size: 20px;
+  }
+
+  .contactRole {
+    font-size: 10px;
+  }
+
+  .contactCompany {
+    font-size: 12px;
+  }
+
+  .contactTopActions {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .contactMethod {
+    grid-template-columns: 1fr;
+  }
+
+  .contactMethod__actions {
+    justify-content: flex-start;
+  }
+
+  .modalCard {
+    padding: 20px 16px 16px;
+  }
+
+  .modalTitle {
+    font-size: 28px;
+  }
+
+  .catalogHead h1 {
+    font-size: 28px;
+  }
+
+  .managerGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .managerTile {
+    grid-template-columns: 58px minmax(0, 1fr);
+  }
+
+  .managerTile__link {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .wrap--contactsPage {
+    padding: 8px;
+  }
+
+  .card__body {
+    padding: 16px;
+  }
+
+  .contactHero {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .contactAvatar {
+    width: 72px;
+    height: 72px;
+  }
+
+  .contactBrandLogo {
+    width: 54px;
+  }
+
+  .contactName {
+    font-size: 18px;
+  }
+
+  .modalAction {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+    gap: 8px;
+  }
+
+  .contactQuick {
+    width: 38px;
+    height: 38px;
+  }
+
+  .contactQuick img {
+    width: 27px;
+    height: 27px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .modalCard,
+  .modalAction,
+  .modalBack,
+  .modalClose,
+  .modalIconAction,
+  .contactQuick,
+  .toast {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .modalAction--accent::before {
+    display: none;
+  }
+}
